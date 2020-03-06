@@ -103,7 +103,7 @@ public class MyClass {
 
         File unsignedApk = new File("dexshelltool/resource/outputs/app-unsigned.apk");
         unsignedApk.getParentFile().mkdirs();
-        ZipUtil.zip(fakeApk, unsignedApk);
+        ZipUtil.toZip(fakeApk, unsignedApk);
         File signedApk = new File("dexshelltool/resource/outputs/app-signed.apk");
         SignatureUtil.signature(unsignedApk, signedApk);
 
