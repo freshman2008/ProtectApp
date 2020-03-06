@@ -1,0 +1,4 @@
+rootProject.name='ProtectApp'
+include ':app'
+include ':dexshelltool'
+include ':Shell'

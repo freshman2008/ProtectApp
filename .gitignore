@@ -1,0 +1,13 @@
+*.iml
+.gradle
+/local.properties
+/.idea
+app/build
+shell/build
+dexshelltool/build
+dexshelltoo/resource
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
