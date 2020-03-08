@@ -57,4 +57,44 @@ public class SignatureUtil {
 
         return true;
     }
+
+
+    public static boolean packApk(File sourceFile, File zipFileName) {
+        final String METHOD_NAME = "runCMD";
+        String cmd[] = {
+                "cmd",
+                "/C",
+                "apktool",
+                "b", sourceFile.getAbsolutePath(),
+                "-o", zipFileName.getName(),
+        };
+
+        try {
+            Process p = Runtime.getRuntime().exec(cmd);
+            BufferedReader br = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+            String readLine = br.readLine();
+            StringBuilder builder = new StringBuilder();
+            while (readLine != null) {
+                readLine = br.readLine();
+                builder.append(readLine);
+            }
+            System.out.println(METHOD_NAME + "#readLine: " + builder.toString());
+
+            p.waitFor();
+            int i = p.exitValue();
+            System.out.println(METHOD_NAME + "#exitValue = " + i);
+            if (i == 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (IOException e) {
+            System.out.println(METHOD_NAME + "#ErrMsg=" + e.getMessage());
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return true;
+    }
 }

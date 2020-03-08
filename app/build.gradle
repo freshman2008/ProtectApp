@@ -16,13 +16,13 @@ android {
 
     signingConfigs {
         debug {
-            storeFile file('C:\\Users\\lixiulia\\Videos\\android\\ProtectApp\\app\\mytest.jks')
+            storeFile file('mytest.jks')
             storePassword 'test123456'
             keyAlias = 'key0'
             keyPassword 'test123456'
         }
         release {
-            storeFile file('C:\\Users\\lixiulia\\Videos\\android\\ProtectApp\\app\\mytest.jks')
+            storeFile file('mytest.jks')
             storePassword 'test123456'
             keyAlias = 'key0'
             keyPassword 'test123456'

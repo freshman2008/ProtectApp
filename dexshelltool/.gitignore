@@ -1,2 +1,4 @@
 /build
-/resource
+/resource/outputs
+/resource/tmp
+

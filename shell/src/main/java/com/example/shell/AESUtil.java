@@ -1,5 +1,7 @@
 package com.example.shell;
 
+import android.util.Log;
+
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
@@ -22,6 +24,7 @@ public class AESUtil {
     }
 
     public static byte[] decrypt(byte[] content) {
+        Log.d("hello", "decrypt 001");
         return decrypt(content, localKey, ZERO_IV);
     }
 
@@ -41,11 +44,21 @@ public class AESUtil {
 
     public static byte[] decrypt(byte[] content, byte[] key, byte[] iv) {
         try {
+            Log.d("hello", "decrypt 002");
+            Log.d("hello", "key:" + key.length);
+            Log.d("hello", "iv:" + iv.length);
+
             Cipher cipher = Cipher.getInstance(DEFAULT_CIPHER_ALGORITHM);
             SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
             IvParameterSpec ivParameterSpec = new IvParameterSpec(iv);
             cipher.init(Cipher.DECRYPT_MODE, secretKeySpec, ivParameterSpec);
             byte[] result = cipher.doFinal(content);
+            if (result == null) {
+                Log.d("hello", "decrypt result is null");
+            } else {
+                Log.d("hello", "result:" + result.length);
+            }
+
             return result;
         } catch (Exception ex) {
             System.out.println(AESUtil.class.getName() + "->" + ex.getMessage());

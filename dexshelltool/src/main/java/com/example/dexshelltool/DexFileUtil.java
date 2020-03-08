@@ -6,6 +6,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.security.NoSuchAlgorithmException;
 import java.util.zip.Adler32;
 
@@ -15,7 +18,7 @@ public class DexFileUtil {
      * @param dexFile
      * @return
      */
-    public static byte[] getBytes(File dexFile) {
+    /*public static byte[] getBytes(File dexFile) {
         BufferedReader br = null;
         try {
             br = new BufferedReader(new FileReader(dexFile));
@@ -33,6 +36,26 @@ public class DexFileUtil {
             e.printStackTrace();
         }
         return null;
+    }*/
+
+    public static byte[] getBytes(File dexFile) {
+        try {
+            FileInputStream fis = new FileInputStream(dexFile);
+            int len = -1;
+            int fileLength = (int)dexFile.length();
+            byte[] content = new byte[fileLength];
+            byte[] buffer = new byte[1024];
+            int current = 0;
+            while ((len = fis.read(buffer, 0, 1024)) != -1 ) {
+                System.arraycopy(buffer, 0, content, current, len);
+                current += len;
+            }
+            fis.close();
+            return content;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
@@ -42,10 +65,14 @@ public class DexFileUtil {
      */
     public static byte[] intToByteArray(int i) {
         byte[] result = new byte[4];
-        result[0] = (byte)((i >> 24) & 0xFF);
-        result[1] = (byte)((i >> 16) & 0xFF);
-        result[2] = (byte)((i >> 8) & 0xFF);
-        result[3] = (byte)(i & 0xFF);
+//        result[0] = (byte)((i >> 24) & 0xFF);
+//        result[1] = (byte)((i >> 16) & 0xFF);
+//        result[2] = (byte)((i >> 8) & 0xFF);
+//        result[3] = (byte)(i & 0xFF);
+        result[3] = (byte)((i >> 24) & 0xFF);
+        result[2] = (byte)((i >> 16) & 0xFF);
+        result[1] = (byte)((i >> 8) & 0xFF);
+        result[0] = (byte)(i & 0xFF);
         return result;
     }
 
@@ -56,15 +83,16 @@ public class DexFileUtil {
      */
     public static int byteArrayToInt(byte[] bytes) {
         int value = 0;
-        value += bytes[0] & 0xFF << 24;
-        value += bytes[1] & 0xFF << 16;
-        value += bytes[2] & 0xFF << 8;
-        value += bytes[3] & 0xFF;
 
-//        for(int i = 0; i < 4; i++) {
-//            int shift= (3-i) * 8;
-//            value +=(bytes[i] & 0xFF) << shift;
-//        }
+//        value += bytes[0] & 0xFF;
+//        value += (bytes[1] & 0xFF) << 8;
+//        value += (bytes[2] & 0xFF) << 16;
+//        value += (bytes[3] & 0xFF) << 24;
+        value |= bytes[0] & 0xFF;
+        value |= (bytes[1] & 0xFF) << 8;
+        value |= (bytes[2] & 0xFF) << 16;
+        value |= (bytes[3] & 0xFF) << 24;
+
         return value;
     }
 
